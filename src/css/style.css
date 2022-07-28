@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Karla:ital,wght@0,400;0,600;0,800;1,400;1,600;1,800&display=swap");
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 6% 0;
+  font-family: "Inter", sans-serif;
+  background: #f5f7fb;
+  color: #293264;
+  border: 2px solid rgb(155, 155, 155);
+  border-radius: 10px;
+  /* min-height: 550px; */
+}
+
+#top-blob{
+  align-self: flex-end;
+}
+
+#bottom-blob{
+  align-self: flex-start;
+}
+
+
+#widget header {
+  align-self: center;
+  font-family: "Karla";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+}
+
+#description {
+  align-self: center;
+  font-size: 16px;
+  line-height: 19px;
+  margin: 10px 0 20px 0;
+}
+
+#start-button {
+  align-self: center;
+  width: 192px;
+  height: 48px;
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 12px;
+  text-transform: none;
+  background: #4d5b9e;
+  color: #f5f7fb;
+  border: none;
+}
+
+.question-wrapper{
+  width: 76%;
+  margin: 0 auto;
+}
+
+#widget .statement {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  margin: 10px;
+  color: #293264;
+}
+
+#widget .option-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#widget .option {
+  padding: 0 10px;
+  min-width: 48px;
+  margin: 10px;
+  border: 0.7px solid #4d5b9e;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#widget .selected {
+  border: 0.7px solid #d6dbf5;
+  background: #d6dbf5;
+}
+
+#widget .locked {
+  border-color: #4d5b9e;
+  color: #4d5b9e;
+}
+
+#widget .correct {
+  color: #293264 !important;
+  border-color: #94d7a2;
+  background: #94d7a2;
+}
+
+#widget .incorrect {
+  border-color: #f8bcbc;
+  background: #f8bcbc;
+}
+
+#widget .neither {
+  border-color: #f8bcbc;
+  background: #f8bcbc;
+}
+
+#widget .seperator {
+  width: 80%;
+  height: 2px;
+  margin: 12px auto;
+  background: #dbdef0;
+}
+
+#results{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top:20px;
+}
+
+#score-message {
+  font-weight: 700;
+  font-size: 12px;
+  color: #293264;
+  margin: 0 10px;
+}
+
+#check-button {
+  background: #4d5b9e;
+  color: #f5f7fb;
+  border-radius: 10px;
+  border: none;
+  margin: 10px 0;
+}
