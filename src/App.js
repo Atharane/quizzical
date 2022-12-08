@@ -2,23 +2,12 @@ import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import LandingSection from "./components/LandingSection";
 import Question from "./components/Question";
+import SolutionSection from "./components/SolutionSection.js";
 
 function App() {
-  console.log("Page loaded");
-
-  const [started, setStarted] = useState(false);
+  const [start, setStart] = useState(false);
   const [questionBank, setQuestionBank] = useState(null);
-
-  const handleSelection = (question_id, option) => {
-    const newQuestionBank = [...questionBank];
-
-    // if the question is already answered, then deselect it
-    newQuestionBank[question_id].selected == option
-      ? (newQuestionBank[question_id].selected = null)
-      : (newQuestionBank[question_id].selected = option);
-
-    setQuestionBank(newQuestionBank);
-  };
+  const [score, setScore] = useState(null);
 
   const sanitizeData = (data) => {
     return data.map((questionItem, index) => {
@@ -48,6 +37,27 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
+  const handleSelection = (question_id, option) => {
+    const newQuestionBank = [...questionBank];
+
+    // if the question is already answered, then deselect it
+    newQuestionBank[question_id].selected === option
+      ? (newQuestionBank[question_id].selected = null)
+      : (newQuestionBank[question_id].selected = option);
+
+    setQuestionBank(newQuestionBank);
+  };
+
+  const checkAnswers = () => {
+    let score = 0;
+    questionBank.forEach((questionItem) => {
+      if (questionItem.selected === questionItem.answer) {
+        score++;
+      }
+    });
+    setScore(score);
+  };
+
   console.log(questionBank);
 
   return (
@@ -55,30 +65,48 @@ function App() {
       <div className="row">
         <div id="widget" className="eight columns">
           <img id="top-blob" src="images/top-blob.png" alt="blob" />
-          {started ? (
+          {start ? (
             // Quiz Page
             <>
-              {questionBank &&
-                questionBank.map((question) => {
-                  return (
+              {score === null && questionBank ? (
+                <>
+                  {questionBank.map((question) => (
                     <Question
                       key={nanoid()}
                       question={question}
                       handleSelection={handleSelection}
                     />
-                  );
-                })}
-              
+                  ))}
 
-
-              <section id="results">
-                {/* <p id="score-message">You scored 3/5 correct answers</p> */}
-                <button className="lavendar-button">Check answers</button>
-              </section>
+                  <section id="results">
+                    <button className="lavendar-button" onClick={checkAnswers}>
+                      Check answers
+                    </button>
+                  </section>
+                </>
+              ) : (
+                <>
+                  <SolutionSection questionBank={questionBank} />
+                  <section id="results">
+                    <p id="score-message">
+                      You scored {score}/5 correct answers
+                    </p>
+                    <button
+                      className="lavendar-button"
+                      onClick={() => {
+                        window.location.reload();
+                      }}
+                    >
+                      Play Again
+                    </button>
+                  </section>
+                </>
+              )}
             </>
           ) : (
-            <LandingSection onClickHandler={() => setStarted(true)} />
+            <LandingSection onClickHandler={() => setStart(true)} />
           )}
+
           <img id="bottom-blob" src="images/bottom-blob.png" alt="blob" />
         </div>
       </div>

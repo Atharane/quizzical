@@ -12,7 +12,7 @@ export default function Question({
               <div
                 onClick={() => handleSelection(question.question_id, option)}
                 className={`option ${
-                  question.selected == option ? "selected" : null
+                  question.selected === option ? "selected" : null
                 }`}
               >
                 {option}
