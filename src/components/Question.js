@@ -1,24 +1,19 @@
-import React from "react";
-
-export default function Question({ statement, options }) {
-  const [selected, setSelected] = React.useState(null);
-
-  function handleClick(e) {
-    let text = e.target.textContent;
-    if (text === selected) setSelected(null);
-    else setSelected(text);
-  }
-
+export default function Question({
+  question,
+  handleSelection,
+}) {
   return (
     <>
       <section className="question-wrapper">
-        <div className="statement">{statement}</div>
+        <div className="statement">{question.statement}</div>
         <div className="option-wrapper">
-          {options.map((option) => {
+          {question.options.map((option) => {
             return (
               <div
-                onClick={handleClick}
-                className={`option ${selected === option ? "selected" : null}`}
+                onClick={() => handleSelection(question.question_id, option)}
+                className={`option ${
+                  question.selected == option ? "selected" : null
+                }`}
               >
                 {option}
               </div>

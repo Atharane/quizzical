@@ -1,39 +1,54 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { nanoid } from "nanoid";
 import LandingSection from "./components/LandingSection";
 import Question from "./components/Question";
 
 function App() {
-  const [started, setStarted] = React.useState(false);
+  console.log("Page loaded");
 
-  function startGame() {
-    setStarted(true);
-  }
+  const [started, setStarted] = useState(false);
+  const [questionBank, setQuestionBank] = useState(null);
 
-  let question_bank = [
-    {
-      question: "Which German sportswear company's logo is the 'Formstripe'?",
-      options: ["Puma", "Nike", "Adiddas", "Reebok"],
-    },
-    {
-      question: "Which team was the 2015-2016 NBA Champions?",
-      options: [
-        "Cleveland Cavaliers",
-        "Golden State Warriors",
-        "Toronto Raptors",
-        "Oklahoma City Thunders",
-      ],
-    },
-    {
-      question: "Which soccer team won the Copa América 2015 Championship ?",
-      options: ["Chile", "Argentina", "Brazil", "Paraguay"],
-    },
-    {
-      question:
-        "In 2016, who won the Formula 1 World Constructor's Championship for the third time in a row?",
-      options: ["Julyes", "Aryton", "Ronald", "Gilles"],
-    },
-  ];
+  const handleSelection = (question_id, option) => {
+    const newQuestionBank = [...questionBank];
 
+    // if the question is already answered, then deselect it
+    newQuestionBank[question_id].selected == option
+      ? (newQuestionBank[question_id].selected = null)
+      : (newQuestionBank[question_id].selected = option);
+
+    setQuestionBank(newQuestionBank);
+  };
+
+  const sanitizeData = (data) => {
+    return data.map((questionItem, index) => {
+      let options = [
+        ...questionItem.incorrect_answers,
+        questionItem.correct_answer,
+      ];
+
+      return {
+        question_id: index,
+        statement: questionItem.question,
+        options: options.sort(() => Math.random() - 0.5),
+        answer: questionItem.correct_answer,
+        selected: null,
+      };
+    });
+  };
+
+  useEffect(() => {
+    fetch(
+      "https://opentdb.com/api.php?amount=5&category=18&difficulty=medium&type=multiple"
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setQuestionBank(sanitizeData(data.results));
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  console.log(questionBank);
 
   return (
     <div className="container">
@@ -41,27 +56,28 @@ function App() {
         <div id="widget" className="eight columns">
           <img id="top-blob" src="images/top-blob.png" alt="blob" />
           {started ? (
-            // quiz page
+            // Quiz Page
             <>
-              {question_bank.map((item) => {
-                return (
-                  <>
+              {questionBank &&
+                questionBank.map((question) => {
+                  return (
                     <Question
-                      statement={item.question}
-                      options={item.options}
+                      key={nanoid()}
+                      question={question}
+                      handleSelection={handleSelection}
                     />
-                  </>
-                );
-              })}
+                  );
+                })}
+              
 
 
               <section id="results">
-                <p id="score-message">You scored 3/5 correct answers</p>
-                <button class="lavendar-button">Check answers</button>
+                {/* <p id="score-message">You scored 3/5 correct answers</p> */}
+                <button className="lavendar-button">Check answers</button>
               </section>
             </>
           ) : (
-            <LandingSection onClickHandler={startGame} />
+            <LandingSection onClickHandler={() => setStarted(true)} />
           )}
           <img id="bottom-blob" src="images/bottom-blob.png" alt="blob" />
         </div>
