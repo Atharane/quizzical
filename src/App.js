@@ -1,24 +1,12 @@
 import React from "react";
-import Question from './components/Question';
+import LandingSection from "./components/LandingSection";
+import Question from "./components/Question";
 
 function App() {
   const [started, setStarted] = React.useState(false);
 
   function startGame() {
     setStarted(true);
-  }
-
-  function generateQuestionJsx(arr) {
-    let newmap = arr.map(item => {
-      return (
-        <>
-          <Question statement={item.question} options={item.options} />
-          <div className="seperator"></div>
-        </>
-      );
-    })
-
-    return newmap;
   }
 
   let question_bank = [
@@ -46,11 +34,6 @@ function App() {
     },
   ];
 
-  let [userInput, setUserInput] = React.useState(null);
-
-  function handleSubmit() {
-    setUserInput(document.getElementById("user-input").value);
-  }
 
   return (
     <div className="container">
@@ -60,22 +43,25 @@ function App() {
           {started ? (
             // quiz page
             <>
-              {generateQuestionJsx(question_bank)}
+              {question_bank.map((item) => {
+                return (
+                  <>
+                    <Question
+                      statement={item.question}
+                      options={item.options}
+                    />
+                  </>
+                );
+              })}
+
 
               <section id="results">
                 <p id="score-message">You scored 3/5 correct answers</p>
-                <button id="check-button">Check answers</button>
+                <button class="lavendar-button">Check answers</button>
               </section>
             </>
           ) : (
-            // landing page
-            <>
-              <header>Quizzical</header>
-              <p id="description">Psych! Outwit Your Friends</p>
-              <button onClick={startGame} id="start-button">
-                Start quiz
-              </button>
-            </>
+            <LandingSection onClickHandler={startGame} />
           )}
           <img id="bottom-blob" src="images/bottom-blob.png" alt="blob" />
         </div>
