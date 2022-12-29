@@ -4,16 +4,17 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 6% 0;
+  margin: 6vh 0;
   font-family: "Inter", sans-serif;
   background: #f5f7fb;
   color: #293264;
   border: 2px solid rgb(155, 155, 155);
   border-radius: 10px;
-  /* min-height: 550px; */
 }
 
 #top-blob{
+  /* position: absolute;
+  top: 6vh;   */
   align-self: flex-end;
 }
 
@@ -28,6 +29,11 @@
   font-style: normal;
   font-weight: 600;
   font-size: 32px;
+}
+
+.centre {
+  width: fit-content;
+  margin: 20px auto;
 }
 
 #description {

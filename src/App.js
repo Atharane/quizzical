@@ -58,7 +58,7 @@ function App() {
     setScore(score);
   };
 
-  console.log(questionBank);
+  // console.log(questionBank);
 
   return (
     <div className="container">
@@ -85,6 +85,7 @@ function App() {
                   </section>
                 </>
               ) : (
+                // Solution Page (after score is calculated)
                 <>
                   <SolutionSection questionBank={questionBank} />
                   <section id="results">
@@ -116,4 +117,3 @@ function App() {
 
 export default App;
 
-/* <img id="blob" src="images/blob.png" alt="blob" />; */
